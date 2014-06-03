@@ -65,7 +65,7 @@ def main():
 						
 						rep = '0'
 						
-						if int(offer_tr[x]) in offer_off:
+						'''if int(offer_tr[x]) in offer_off:
 							idx1 = np.where(offer_off==int(offer_tr[x]))
 							categoryt = np.asscalar(category_off[idx1])
 							companyt = np.asscalar(company_off[idx1])
@@ -74,7 +74,7 @@ def main():
 						else:
 							categoryt = 0
 							companyt = 0
-							brandt = 0
+							brandt = 0'''
 
 						
 						#repid, sumid, avid
@@ -91,30 +91,26 @@ def main():
 						#print repchain, sumchain, avchain
 						
 						#repcategory, sumcategory, avcategory
-						repcategory, sumcategory, avcategory = retarr(matt, unique_category, 3, categoryt)
+						repcategory, sumcategory, avcategory = retarr(matt, unique_category, 3)
 						#print "category", repcategory, sumcategory, avcategory
 					
 						#repcompany, sumcompany, avcompany
-						repcompany, sumcompany, avcompany = retarr(matt, unique_company, 4, companyt)
+						repcompany, sumcompany, avcompany = retarr(matt, unique_company, 4)
 						#print "company", repcompany, sumcompany, avcompany
 						
 						#repbrand, sumbrand, avbrand
-						repbrand, sumbrand, avbrand = retarr(matt, unique_brand, 5, brandt)
+						repbrand, sumbrand, avbrand = retarr(matt, unique_brand, 5)
 						#print "brand", repbrand, sumbrand, avbrand
 							
 						#date: moth and weekday
 						datt = dat(str(offerdate_tr[x]))
 						
 						#repmonth, summonth, avmonth: datt[0] - month
-						repmonth, summonth, avmonth = retarr(matt, range(1,13), 6, -1)
+						repmonth, summonth, avmonth = retarr(matt, range(1,13), 6)
 						
 						#repweekday, sumweekday, avweekday: datt[1] - weekday
-						repweekday, sumweekday, avweekday = retarr(matt, range(1,8), 7, -1)
-						
-						#npline = [chain_tr[x],offer_tr[x],market_tr[x],repid,sumid,avid,repchain,sumchain,avchain]
-						#npline = np.array(npline)
-						#print type(npline)
-												
+						repweekday, sumweekday, avweekday = retarr(matt, range(1,8), 7)
+																		
 						saveLine = tmp+','+rep+','+chain_tr[x]+','+offer_tr[x]+','+market_tr[x]+','+"%d"%repid+','+"%.6f"%sumid+','+"%.6f"%avid+','+"%d"%repchain+','+"%.6f"%sumchain+','+"%.6f"%avchain
 						for i in range(0,len(unique_category)):
 							saveLine = saveLine+','+"%d"%repcategory[i]+','+"%.6f"%sumcategory[i]+','+"%.6f"%avcategory[i]
@@ -176,23 +172,15 @@ def av(sum,rep):
 		av = sum/rep
 	return av
 
-def retarr(matt, arr, number_col, num):
+def retarr(matt, arr, number_col):
 	reparr={}
 	sumarr={}
 	avarr={}
-	tmp = np.where(arr==num)
-	#print  tmp
 	for i in range(0, len(arr)):
-		if i==tmp[0]+1:
-			reparr[i] = (matt[:,number_col]==int(num)).sum()				
-			idxs = np.where(matt[:,number_col]==int(num))
-			sumarr[i] = matt[idxs,10].sum()
-			avarr[i] = av(sumarr[i],reparr[i])
-			#print "if"
-		else:
-			reparr[i]=0
-			sumarr[i]=0
-			avarr[i]=0
+		reparr[i] = (matt[:,number_col]==int(arr[i])).sum()				
+		idxs = np.where(matt[:,number_col]==int(arr[i]))
+		sumarr[i] = matt[idxs,10].sum()
+		avarr[i] = av(sumarr[i],reparr[i])
 	return reparr, sumarr, avarr
 
 start_time = time.time()	
