@@ -7,7 +7,7 @@ from datetime import datetime as dt
 fname_tr = "data\\transactions.csv"
 #fname_test = "data\\testHistory_s.csv"
 fname_test = "data\\testHistory.csv"
-fname_off = "data\\offersint.csv"
+fname_off = "data\\offers.csv"
 fname_out = "data\\outputTestAll.csv"
 
 def main():
@@ -18,14 +18,15 @@ def main():
 		
 		with open(fname_off) as f2:
 			f2.next()
-			offer_off,category_off,quantity_off,company_off,offervalue_off,brand_off = np.loadtxt(fname_off, delimiter=',', unpack='true', dtype='int')
+			offer_off,category_off,quantity_off,company_off,offervalue_off,brand_off = np.loadtxt(f2, delimiter=',', unpack='true', dtype='int')
 		print "len offer file", len(offer_off)
 		
-		unique_category = np.unique(category_off[1:len(category_off)])
-		unique_company = np.unique(company_off[1:len(company_off)])
-		unique_brand = np.unique(brand_off[1:len(brand_off)])
-		#print len(company_off), len(unique_company), unique_company
-
+		unique_category = np.unique(category_off)
+		# print "category", unique_category, len(unique_category)
+		unique_company = np.unique(company_off)
+		# print "company", unique_company, len(unique_company)
+		unique_brand = np.unique(brand_off)
+		# print "brand", unique_brand, len(unique_brand)
 
 		with open(fname_tr) as f:
 			f.next()
@@ -44,7 +45,6 @@ def main():
 			saveLine = saveLine +'\n'
 			fo.write(saveLine)
 			x=1
-			#b=set()
 			mat = []
 			print "id", id_tr
 			for idx, line in enumerate(f):
@@ -53,7 +53,6 @@ def main():
 				if idx == 0:
 					tmp = id
 				if id == tmp:
-					#b.add(line)
 					datt = dat(date)
 					appe(mat,id,chain,dept,category,company,brand,datt,productsize,purchasequantity,purchaseamount)
 				if id != tmp:
